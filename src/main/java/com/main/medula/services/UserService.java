@@ -19,9 +19,9 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired
-    private final UsersRepository usersRepository;
+    private UsersRepository usersRepository;
     @Autowired
-    private final EmailServiceImpl emailService;
+    private EmailServiceImpl emailService;
 
 
 
