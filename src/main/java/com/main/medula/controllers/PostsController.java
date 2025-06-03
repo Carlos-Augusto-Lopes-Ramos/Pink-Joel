@@ -15,7 +15,10 @@ public class PostsController {
     @Autowired
     PostsRepository postsRepository;
 
-    PostCommandoService commando = new PostCommandoService(postsRepository);
+    @Autowired
+    CommentsRepository commentsRepository;
+
+    PostCommandoService commando = new PostCommandoService(postsRepository, commentsRepository);
 
     //Posts Controller Area
     @PostMapping("/posts/create")
