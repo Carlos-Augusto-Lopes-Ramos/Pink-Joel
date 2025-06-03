@@ -18,8 +18,9 @@ import java.util.Optional;
 @Service
 public class UserService {
 
+    @Autowired
     private final UsersRepository usersRepository;
-    
+    @Autowired
     private final EmailServiceImpl emailService;
 
 
