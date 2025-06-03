@@ -5,15 +5,16 @@ import com.main.medula.models.CommentsModel;
 import com.main.medula.models.UsersModel;
 import com.main.medula.repositories.CommentsRepository;
 import com.main.medula.repositories.UsersRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 
 public class CommentService {
 
-
+    @Autowired
     CommentsRepository commentsRepository;
-
+    @Autowired
     UsersRepository usersRepository;
 
     public CommentService(CommentsRepository repository, UsersRepository usersRepository) {
