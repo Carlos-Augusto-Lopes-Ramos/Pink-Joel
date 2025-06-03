@@ -1,7 +1,9 @@
 package com.main.medula.services;
 
 import com.main.medula.dtos.PostDto;
+import com.main.medula.models.CommentsModel;
 import com.main.medula.models.PostsModel;
+import com.main.medula.repositories.CommentsRepository;
 import com.main.medula.repositories.PostsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,12 +26,22 @@ import static org.springframework.data.web.config.EnableSpringDataWebSupport.Pag
 @Service
 public class PostCommandoService {
 
-    private final PostsRepository postsRepository;
+    PostsRepository postsRepository;
+
+    CommentsRepository commentsRepository;
 
     @Autowired
+    public PostCommandoService(PostsRepository post, CommentsRepository comments) {
+        this.postsRepository = post;
+        this.commentsRepository = comments;
+    };
+
+
     public PostCommandoService(PostsRepository post) {
         this.postsRepository = post;
     };
+
+
 
     public ResponseEntity<Object> getAllPosts() {
         List<PostsModel> postsList = postsRepository.findAll();
@@ -46,6 +58,12 @@ public class PostCommandoService {
     public ResponseEntity<String> deletePost(int id){
         Optional<PostsModel> postToDelete = postsRepository.findById(id);
         if(postToDelete.isPresent()){
+            if(!postToDelete.get().getComments().isEmpty()){
+                List<CommentsModel> comments = postToDelete.get().getComments();
+                for (CommentsModel comment : comments) {
+                    commentsRepository.deleteById(comment.getId());
+                }
+            };
             postsRepository.deleteById(id);
             return ResponseEntity.status(HttpStatus.OK).build();
         };

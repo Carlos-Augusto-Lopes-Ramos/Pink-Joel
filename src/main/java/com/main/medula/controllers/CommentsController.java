@@ -26,7 +26,7 @@ public class CommentsController {
         return commentService.saveComment(token, dto);
     }
 
-    @PostMapping("/update/{token}/{id}")
+    @DeleteMapping("/update/{token}/{id}")
     public ResponseEntity<String> deleteComment(@PathVariable("id") int commentId, @PathVariable("token") String token) {
         return commentService.deleteComment(token, commentId);
     }
