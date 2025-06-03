@@ -2,6 +2,7 @@ package com.main.medula.controllers;
 
 import com.main.medula.dtos.PostDto;
 import com.main.medula.repositories.PostsRepository;
+import com.main.medula.repositories.CommentsRepository;
 import com.main.medula.services.PostCommandoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
