@@ -26,8 +26,9 @@ import static org.springframework.data.web.config.EnableSpringDataWebSupport.Pag
 @Service
 public class PostCommandoService {
 
+    @Autowired
     PostsRepository postsRepository;
-
+    @Autowired
     CommentsRepository commentsRepository;
 
     @Autowired
