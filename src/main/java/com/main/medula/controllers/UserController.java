@@ -21,41 +21,39 @@ public class UserController {
 
     @Autowired
     EmailServiceImpl emailService;
-    
+
+    @Autowired
+    UserService commando = new UserService(userRepository, emailService);
 
     //User Controller Area
     @PostMapping("/register")
     @ResponseBody
     public ResponseEntity<Object> createNewUser(@RequestBody UserDto dto) {
-        UserService commando = new UserService(userRepository, emailService);
+
         return commando.register(dto);
     }
 
     @PostMapping("/login")
     @ResponseBody
     public ResponseEntity<Object> getUser(@RequestBody LoginDto dto) {
-        UserService commando = new UserService(userRepository, emailService);
         return commando.login(dto);
     }
 
     @PostMapping("/login/{token}")
     @ResponseBody
     public ResponseEntity<Object> getUserByToken(@PathVariable("token") String token) {
-        UserService commando = new UserService(userRepository, emailService);
         return commando.getUserByToken(token);
     }
 
     @PostMapping("/login/recover")
     @ResponseBody
     public ResponseEntity<Object> updatePswrd(@RequestBody RecoverDto dto) {
-        UserService commando = new UserService(userRepository, emailService);
         return commando.passWordRecover(dto);
     }
 
     @PostMapping("/login/recover/{token}")
     @ResponseBody
     public ResponseEntity<Object> updatePswrd(@RequestBody LoginDto dto, @PathVariable("token") String token) {
-        UserService commando = new UserService(userRepository, emailService);
         return commando.passWordRecover(token, dto);
     }
 

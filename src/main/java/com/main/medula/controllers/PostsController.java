@@ -19,6 +19,7 @@ public class PostsController {
     @Autowired
     CommentsRepository commentsRepository;
 
+    @Autowired
     PostCommandoService commando = new PostCommandoService(postsRepository, commentsRepository);
 
     //Posts Controller Area

@@ -19,6 +19,7 @@ public class CommentsController {
     @Autowired
     UsersRepository usersRepository;
 
+    @Autowired
     CommentService commentService = new CommentService(commentsRepository, usersRepository);
 
     @PostMapping("/create/{token}")
