@@ -17,6 +17,7 @@ public class CommentService {
     @Autowired
     UsersRepository usersRepository;
 
+    @Autowired
     public CommentService(CommentsRepository repository, UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
         this.commentsRepository = repository;
