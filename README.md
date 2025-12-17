@@ -1,4 +1,4 @@
-# 🧠 Medula API
+# 🧠 Pink-Joel API
 
 API REST em **Spring Boot** para gerenciamento de **usuários**, **posts** e **comentários**, com autenticação por **token** e recuperação de senha via **e-mail**.
 
