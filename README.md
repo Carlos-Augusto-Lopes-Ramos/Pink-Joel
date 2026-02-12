@@ -1,165 +1,193 @@
-🧠 Pink-Joel API
+# 🧠 Pink-Joel API
 
-REST API developed with Spring Boot for managing Users, Posts, and
-Comments, featuring token-based authentication, email password recovery,
-and Docker containerization.
+REST API in **Spring Boot** for managing **users**, **posts**, and
+**comments**, with **token-based authentication**, password recovery via
+**email**, and **Docker containerization**.
 
 ------------------------------------------------------------------------
 
-📌 Overview
+## 📌 Overview
 
 -   User registration and authentication
 -   Token generation and validation
 -   Password recovery via email
--   CRUD operations for posts (with pagination)
--   Comment system with authorization control
--   JSON communication with proper HTTP status codes
+-   CRUD operations for posts with pagination
+-   Comments with authorization control
+
+Communication via **JSON** and **HTTP Status Codes**.
 
 ------------------------------------------------------------------------
 
-🏗️ Architecture
-
--   Layered Architecture (Controller → Service → Repository)
--   DTO Pattern
--   Token-based authentication
--   Relational database integration
--   Dockerized environment
-
-------------------------------------------------------------------------
-
-🚀 Technologies
+## 🚀 Technologies
 
 -   Java 17+
 -   Spring Boot (Web, Data JPA)
--   PostgreSQL
--   SMTP (Email Service)
--   Docker
--   Maven
+-   Relational Database (PostgreSQL)
+-   SMTP (emails)
+-   DTO Pattern
 
 ------------------------------------------------------------------------
 
-🔐 Authentication
+## 🔐 Authentication
 
-Authentication is token-based.
+-   Login generates a **token**
+-   Token is sent in the header Authorization: Bearer {token}
+-   Token is used for protected operations and password recovery
+-   CORS enabled (\*) --- restrict in production
 
-Token must be sent in protected requests:
+------------------------------------------------------------------------
+
+# 👤 Users API
+
+**Base URL** /api/users
+
+### Create user
+
+**POST** /api/users
+
+``` json
+{
+  "email": "user@email.com",
+  "name": "Name",
+  "pswrd": "password123"
+}
+```
+
+### Login
+
+**POST** /api/users/login
+
+``` json
+{
+  "email": "user@email.com",
+  "pswrd": "password123"
+}
+```
+
+### Authenticated user
+
+**GET** /api/users/me
 
 Authorization: Bearer {token}
 
-CORS is currently open (*) — restrict in production.
+### Request password recovery
+
+**POST** /api/users/recover
+
+``` json
+{
+  "email": "user@email.com"
+}
+```
+
+### Reset password
+
+**PUT** /api/users/recover
+
+``` json
+{
+  "token": "received_token",
+  "pswrd": "newPassword123"
+}
+```
 
 ------------------------------------------------------------------------
 
-👤 Users API
+# 📝 Posts API
 
-Base URL: /api/users
+**Base URL** /api/posts
 
-Create User
+### Create post
 
-POST /api/users
+**POST** /api/posts
 
-{ “email”: “user@email.com”, “name”: “Name”, “pswrd”: “password123” }
+``` json
+{
+  "title": "Title",
+  "content": "Content",
+  "image": "https://img.com/img.png"
+}
+```
 
-Login
+### List posts
 
-POST /api/users/login
+**GET** /api/posts
 
-{ “email”: “user@email.com”, “pswrd”: “password123” }
+### List paginated posts
 
-Get Authenticated User
+**GET** /api/posts?page=0&size=10
 
-GET /api/users/me Header: Authorization: Bearer {token}
+### Delete post
 
-Request Password Recovery
+**DELETE** /api/posts/{id}
 
-POST /api/users/recover
-
-{ “email”: “user@email.com” }
-
-Reset Password
-
-PUT /api/users/recover
-
-{ “token”: “received_token”, “pswrd”: “newPassword123” }
+> Linked comments are automatically removed.
 
 ------------------------------------------------------------------------
 
-📝 Posts API
+# 💬 Comments API
 
-Base URL: /api/posts
+**Base URL** /api/comments
 
-Create Post
+### Create comment
 
-POST /api/posts
+**POST** /api/comments
 
-{ “title”: “Post Title”, “content”: “Post content”, “image”:
-“https://img.com/image.png” }
+Authorization: Bearer {token}
 
-List Posts
+``` json
+{
+  "postId": 10,
+  "content": "Comment text",
+  "image": "https://img.com/img.png"
+}
+```
 
-GET /api/posts
+### Update comment
 
-List Paginated Posts
+**PUT** /api/comments/{id}
 
-GET /api/posts?page=0&size=10
+Authorization: Bearer {token}
 
-Delete Post
+### Delete comment
 
-DELETE /api/posts/{id} (Associated comments are automatically removed.)
+**DELETE** /api/comments/{id}
 
-------------------------------------------------------------------------
-
-💬 Comments API
-
-Base URL: /api/comments
-
-Create Comment
-
-POST /api/comments Header: Authorization: Bearer {token}
-
-{ “postId”: 10, “content”: “Comment text”, “image”:
-“https://img.com/image.png” }
-
-Update Comment
-
-PUT /api/comments/{id} Header: Authorization: Bearer {token}
-
-Delete Comment
-
-DELETE /api/comments/{id} Header: Authorization: Bearer {token}
+Authorization: Bearer {token}
 
 ------------------------------------------------------------------------
 
-📦 DTO Summary
+## 📦 DTOs (Summary)
 
-UserDto → email, name, pswrd LoginDto → email, pswrd RecoverDto → email
-PostDto → title, content, image CommentDto → postId, content, image
-
-------------------------------------------------------------------------
-
-🔒 Security Rules
-
--   Users can only edit/delete their own comments
--   Authorization is validated using the authenticated user from the
-    token
+``` text
+UserDto    → email, name, pswrd
+LoginDto   → email, pswrd
+RecoverDto → email
+PostDto    → title, content, image
+CommentDto → postId, content, image
+```
 
 ------------------------------------------------------------------------
 
-🐳 Docker
+## 🔒 Security Rules
 
-docker build -t pink-joel-api . docker run -p 8080:8080 pink-joel-api
-
-------------------------------------------------------------------------
-
-⚙️ Running Locally
-
-git clone https://github.com/your-username/pink-joel-api.git cd
-pink-joel-api ./mvnw spring-boot:run
-
-Application runs at: http://localhost:8080
+-   A user can only edit/delete **their own comments**
+-   Validation is based on the user extracted from the token
 
 ------------------------------------------------------------------------
 
-👨‍💻 Author
+## 🚧 Roadmap
 
-Carlos Augusto Academic / Professional Project
+-   JWT + Spring Security
+-   BCrypt
+-   Token expiration
+-   Rate limiting
+-   Logging and automated tests
+
+------------------------------------------------------------------------
+
+## 👨‍💻 Author
+
+**Carlos Augusto**
+
+> Academic/professional project. Contributions are welcome.
