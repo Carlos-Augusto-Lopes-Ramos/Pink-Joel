@@ -1,211 +1,178 @@
-# 🧠 Pink-Joel API
+🧠 Pink-Joel API
 
-API REST em **Spring Boot** para gerenciamento de **usuários**, **posts** e **comentários**, com autenticação por **token** e recuperação de senha via **e-mail** e **containerização em Docker**.
+REST API built with Spring Boot for managing users, posts, and comments, featuring token-based authentication, password recovery via email, and Docker containerization.
 
----
+📌 Overview
 
-## 📌 Visão Geral
+User registration and authentication
 
-* Cadastro e autenticação de usuários
-* Geração e validação de tokens
-* Recuperação de senha por e-mail
-* CRUD de posts com paginação
-* Comentários com controle de autorização
+Token generation and validation
 
-Comunicação via **JSON** e **HTTP Status Codes**.
+Password recovery via email
 
----
+Post CRUD with pagination
 
-## 🚀 Tecnologias
+Comments with authorization control
 
-* Java 17+
-* Spring Boot (Web, Data JPA)
-* Banco Relacional (PostgreSQL)
-* SMTP (e-mails)
-* DTO Pattern
+Communication via JSON and HTTP Status Codes.
 
----
+🚀 Technologies
 
-## 🔐 Autenticação
+Java 17+
 
-* Login gera um **token**
-* Token é enviado no header `Authorization: Bearer {token}`
-* Token é usado para operações protegidas e recuperação de senha
-* CORS liberado (`*`) — restringir em produção
+Spring Boot (Web, Data JPA)
 
----
+Relational Database (PostgreSQL)
 
-# 👤 Users API
+SMTP (emails)
 
-**Base URL**
+DTO Pattern
 
-```
+🔐 Authentication
+
+Login generates a token
+
+Token is sent in the header Authorization: Bearer {token}
+
+Token is required for protected operations and password reset
+
+CORS enabled (*) — restrict in production
+
+👤 Users API
+
+Base URL
+
 /api/users
-```
 
-### Criar usuário
+Create user
 
-**POST** `/api/users`
+POST /api/users
 
-```json
 {
   "email": "user@email.com",
-  "name": "Nome",
-  "pswrd": "senha123"
+  "name": "Name",
+  "pswrd": "password123"
 }
-```
 
-### Login
+Login
 
-**POST** `/api/users/login`
+POST /api/users/login
 
-```json
 {
   "email": "user@email.com",
-  "pswrd": "senha123"
+  "pswrd": "password123"
 }
-```
 
-### Usuário autenticado
+Authenticated user
 
-**GET** `/api/users/me`
+GET /api/users/me
 
-```
 Authorization: Bearer {token}
-```
 
-### Solicitar recuperação de senha
+Request password recovery
 
-**POST** `/api/users/recover`
+POST /api/users/recover
 
-```json
 {
   "email": "user@email.com"
 }
-```
 
-### Redefinir senha
+Reset password
 
-**PUT** `/api/users/recover`
+PUT /api/users/recover
 
-```json
 {
-  "token": "token_recebido",
-  "pswrd": "novaSenha123"
+  "token": "received_token",
+  "pswrd": "newPassword123"
 }
-```
 
----
+📝 Posts API
 
-# 📝 Posts API
+Base URL
 
-**Base URL**
-
-```
 /api/posts
-```
 
-### Criar post
+Create post
 
-**POST** `/api/posts`
+POST /api/posts
 
-```json
 {
-  "title": "Título",
-  "content": "Conteúdo",
+  "title": "Title",
+  "content": "Content",
   "image": "https://img.com/img.png"
 }
-```
 
-### Listar posts
+List posts
 
-**GET** `/api/posts`
+GET /api/posts
 
-### Listar posts paginados
+List paginated posts
 
-**GET** `/api/posts?page=0&size=10`
+GET /api/posts?page=0&size=10
 
-### Remover post
+Delete post
 
-**DELETE** `/api/posts/{id}`
+DELETE /api/posts/{id}
 
-> Comentários vinculados são removidos automaticamente.
+Related comments are automatically removed.
 
----
+💬 Comments API
 
-# 💬 Comments API
+Base URL
 
-**Base URL**
-
-```
 /api/comments
-```
 
-### Criar comentário
+Create comment
 
-**POST** `/api/comments`
+POST /api/comments
 
-```
 Authorization: Bearer {token}
-```
 
-```json
 {
   "postId": 10,
-  "content": "Texto do comentário",
+  "content": "Comment text",
   "image": "https://img.com/img.png"
 }
-```
 
-### Atualizar comentário
+Update comment
 
-**PUT** `/api/comments/{id}`
+PUT /api/comments/{id}
 
-```
 Authorization: Bearer {token}
-```
 
-### Remover comentário
+Delete comment
 
-**DELETE** `/api/comments/{id}`
+DELETE /api/comments/{id}
 
-```
 Authorization: Bearer {token}
-```
 
----
-
-## 📦 DTOs (Resumo)
-
-```text
+📦 DTOs (Summary)
 UserDto    → email, name, pswrd
 LoginDto   → email, pswrd
 RecoverDto → email
 PostDto    → title, content, image
 CommentDto → postId, content, image
-```
 
----
+🔒 Security Rules
 
-## 🔒 Regras de Segurança
+A user can only edit/delete their own comments
 
-* Usuário só pode editar/remover **seus próprios comentários**
-* Validação baseada no usuário do token
+Validation is based on the user extracted from the token
 
----
+🚧 Roadmap
 
-## 🚧 Roadmap
+JWT + Spring Security
 
-* JWT + Spring Security
-* BCrypt
-* Expiração de token
-* Rate limit
-* Logs e testes automatizados
+BCrypt
 
----
+Token expiration
 
-## 👨‍💻 Autor
+Rate limiting
 
-**Carlos Augusto**
+Logging and automated tests
 
-> Projeto acadêmico/profissional. Contribuições são bem-vindas.
+👨‍💻 Author
+
+Carlos Augusto
+
+Academic/professional project. Contributions are welcome.
