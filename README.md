@@ -1,163 +1,165 @@
-# 🧠 Pink-Joel API
+🧠 Pink-Joel API
 
-REST API built with **Spring Boot** for managing **users**, **posts**, and **comments**, featuring **token-based authentication**, password recovery via **email**, and **Docker containerization**.
+REST API developed with Spring Boot for managing Users, Posts, and
+Comments, featuring token-based authentication, email password recovery,
+and Docker containerization.
 
----
+------------------------------------------------------------------------
 
-## 📌 Overview
+📌 Overview
 
-- User registration and authentication  
-- Token generation and validation  
-- Password recovery via email  
-- Post CRUD with pagination  
-- Comments with authorization control  
+-   User registration and authentication
+-   Token generation and validation
+-   Password recovery via email
+-   CRUD operations for posts (with pagination)
+-   Comment system with authorization control
+-   JSON communication with proper HTTP status codes
 
-Communication via **JSON** and standard **HTTP Status Codes**.
+------------------------------------------------------------------------
 
----
+🏗️ Architecture
 
-## 🚀 Technologies
+-   Layered Architecture (Controller → Service → Repository)
+-   DTO Pattern
+-   Token-based authentication
+-   Relational database integration
+-   Dockerized environment
 
-- Java 17+  
-- Spring Boot (Web, Data JPA)  
-- PostgreSQL (Relational Database)  
-- SMTP (Email service)  
-- DTO Pattern  
-- Docker  
+------------------------------------------------------------------------
 
----
+🚀 Technologies
 
-## 🔐 Authentication
+-   Java 17+
+-   Spring Boot (Web, Data JPA)
+-   PostgreSQL
+-   SMTP (Email Service)
+-   Docker
+-   Maven
 
-- Login generates a **token**
-- Token must be sent in the header:
+------------------------------------------------------------------------
 
-```http
+🔐 Authentication
+
+Authentication is token-based.
+
+Token must be sent in protected requests:
+
 Authorization: Bearer {token}
-Required for protected operations and password reset
 
-CORS enabled (*) — restrict in production
+CORS is currently open (*) — restrict in production.
+
+------------------------------------------------------------------------
 
 👤 Users API
-Base URL
-/api/users
 
-➕ Create User
+Base URL: /api/users
+
+Create User
+
 POST /api/users
 
-{
-  "email": "user@email.com",
-  "name": "Name",
-  "pswrd": "password123"
-}
+{ “email”: “user@email.com”, “name”: “Name”, “pswrd”: “password123” }
 
-🔑 Login
+Login
+
 POST /api/users/login
 
-{
-  "email": "user@email.com",
-  "pswrd": "password123"
-}
+{ “email”: “user@email.com”, “pswrd”: “password123” }
 
-👤 Get Authenticated User
-GET /api/users/me
+Get Authenticated User
 
-Authorization: Bearer {token}
+GET /api/users/me Header: Authorization: Bearer {token}
 
-🔄 Request Password Recovery
+Request Password Recovery
+
 POST /api/users/recover
 
-{
-  "email": "user@email.com"
-}
+{ “email”: “user@email.com” }
 
-🔁 Reset Password
+Reset Password
+
 PUT /api/users/recover
 
-{
-  "token": "received_token",
-  "pswrd": "newPassword123"
-}
+{ “token”: “received_token”, “pswrd”: “newPassword123” }
+
+------------------------------------------------------------------------
 
 📝 Posts API
-Base URL
-/api/posts
 
-➕ Create Post
+Base URL: /api/posts
+
+Create Post
+
 POST /api/posts
 
-{
-  "title": "Title",
-  "content": "Content",
-  "image": "https://img.com/img.png"
-}
+{ “title”: “Post Title”, “content”: “Post content”, “image”:
+“https://img.com/image.png” }
 
-📄 List Posts
+List Posts
+
 GET /api/posts
 
-📄 List Paginated Posts
+List Paginated Posts
+
 GET /api/posts?page=0&size=10
 
-❌ Delete Post
-DELETE /api/posts/{id}
+Delete Post
 
+DELETE /api/posts/{id} (Associated comments are automatically removed.)
 
-Related comments are automatically removed.
+------------------------------------------------------------------------
 
 💬 Comments API
-Base URL
-/api/comments
 
-➕ Create Comment
-POST /api/comments
+Base URL: /api/comments
 
-Authorization: Bearer {token}
+Create Comment
 
-{
-  "postId": 10,
-  "content": "Comment text",
-  "image": "https://img.com/img.png"
-}
+POST /api/comments Header: Authorization: Bearer {token}
 
-✏️ Update Comment
-PUT /api/comments/{id}
+{ “postId”: 10, “content”: “Comment text”, “image”:
+“https://img.com/image.png” }
 
-Authorization: Bearer {token}
+Update Comment
 
-❌ Delete Comment
-DELETE /api/comments/{id}
+PUT /api/comments/{id} Header: Authorization: Bearer {token}
 
-Authorization: Bearer {token}
+Delete Comment
 
-📦 DTOs
-UserDto    → email, name, pswrd
-LoginDto   → email, pswrd
-RecoverDto → email
-PostDto    → title, content, image
-CommentDto → postId, content, image
+DELETE /api/comments/{id} Header: Authorization: Bearer {token}
+
+------------------------------------------------------------------------
+
+📦 DTO Summary
+
+UserDto → email, name, pswrd LoginDto → email, pswrd RecoverDto → email
+PostDto → title, content, image CommentDto → postId, content, image
+
+------------------------------------------------------------------------
 
 🔒 Security Rules
 
-Users can only edit/delete their own comments
+-   Users can only edit/delete their own comments
+-   Authorization is validated using the authenticated user from the
+    token
 
-Validation is based on the authenticated user extracted from the token
+------------------------------------------------------------------------
 
-🚧 Roadmap
+🐳 Docker
 
-JWT + Spring Security
+docker build -t pink-joel-api . docker run -p 8080:8080 pink-joel-api
 
-BCrypt password encryption
+------------------------------------------------------------------------
 
-Token expiration
+⚙️ Running Locally
 
-Rate limiting
+git clone https://github.com/your-username/pink-joel-api.git cd
+pink-joel-api ./mvnw spring-boot:run
 
-Logging
+Application runs at: http://localhost:8080
 
-Automated tests
+------------------------------------------------------------------------
 
 👨‍💻 Author
 
-Carlos Augusto
-
-Academic/professional project. Contributions are welcome.
+Carlos Augusto Academic / Professional Project
