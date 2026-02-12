@@ -1,51 +1,48 @@
-🧠 Pink-Joel API
+# 🧠 Pink-Joel API
 
-REST API built with Spring Boot for managing users, posts, and comments, featuring token-based authentication, password recovery via email, and Docker containerization.
+REST API built with **Spring Boot** for managing **users**, **posts**, and **comments**, featuring **token-based authentication**, password recovery via **email**, and **Docker containerization**.
 
-📌 Overview
+---
 
-User registration and authentication
+## 📌 Overview
 
-Token generation and validation
+- User registration and authentication  
+- Token generation and validation  
+- Password recovery via email  
+- Post CRUD with pagination  
+- Comments with authorization control  
 
-Password recovery via email
+Communication via **JSON** and standard **HTTP Status Codes**.
 
-Post CRUD with pagination
+---
 
-Comments with authorization control
+## 🚀 Technologies
 
-Communication via JSON and HTTP Status Codes.
+- Java 17+  
+- Spring Boot (Web, Data JPA)  
+- PostgreSQL (Relational Database)  
+- SMTP (Email service)  
+- DTO Pattern  
+- Docker  
 
-🚀 Technologies
+---
 
-Java 17+
+## 🔐 Authentication
 
-Spring Boot (Web, Data JPA)
+- Login generates a **token**
+- Token must be sent in the header:
 
-Relational Database (PostgreSQL)
-
-SMTP (emails)
-
-DTO Pattern
-
-🔐 Authentication
-
-Login generates a token
-
-Token is sent in the header Authorization: Bearer {token}
-
-Token is required for protected operations and password reset
+```http
+Authorization: Bearer {token}
+Required for protected operations and password reset
 
 CORS enabled (*) — restrict in production
 
 👤 Users API
-
 Base URL
-
 /api/users
 
-Create user
-
+➕ Create User
 POST /api/users
 
 {
@@ -54,8 +51,7 @@ POST /api/users
   "pswrd": "password123"
 }
 
-Login
-
+🔑 Login
 POST /api/users/login
 
 {
@@ -63,22 +59,19 @@ POST /api/users/login
   "pswrd": "password123"
 }
 
-Authenticated user
-
+👤 Get Authenticated User
 GET /api/users/me
 
 Authorization: Bearer {token}
 
-Request password recovery
-
+🔄 Request Password Recovery
 POST /api/users/recover
 
 {
   "email": "user@email.com"
 }
 
-Reset password
-
+🔁 Reset Password
 PUT /api/users/recover
 
 {
@@ -87,13 +80,10 @@ PUT /api/users/recover
 }
 
 📝 Posts API
-
 Base URL
-
 /api/posts
 
-Create post
-
+➕ Create Post
 POST /api/posts
 
 {
@@ -102,28 +92,23 @@ POST /api/posts
   "image": "https://img.com/img.png"
 }
 
-List posts
-
+📄 List Posts
 GET /api/posts
 
-List paginated posts
-
+📄 List Paginated Posts
 GET /api/posts?page=0&size=10
 
-Delete post
-
+❌ Delete Post
 DELETE /api/posts/{id}
+
 
 Related comments are automatically removed.
 
 💬 Comments API
-
 Base URL
-
 /api/comments
 
-Create comment
-
+➕ Create Comment
 POST /api/comments
 
 Authorization: Bearer {token}
@@ -134,19 +119,17 @@ Authorization: Bearer {token}
   "image": "https://img.com/img.png"
 }
 
-Update comment
-
+✏️ Update Comment
 PUT /api/comments/{id}
 
 Authorization: Bearer {token}
 
-Delete comment
-
+❌ Delete Comment
 DELETE /api/comments/{id}
 
 Authorization: Bearer {token}
 
-📦 DTOs (Summary)
+📦 DTOs
 UserDto    → email, name, pswrd
 LoginDto   → email, pswrd
 RecoverDto → email
@@ -155,21 +138,23 @@ CommentDto → postId, content, image
 
 🔒 Security Rules
 
-A user can only edit/delete their own comments
+Users can only edit/delete their own comments
 
-Validation is based on the user extracted from the token
+Validation is based on the authenticated user extracted from the token
 
 🚧 Roadmap
 
 JWT + Spring Security
 
-BCrypt
+BCrypt password encryption
 
 Token expiration
 
 Rate limiting
 
-Logging and automated tests
+Logging
+
+Automated tests
 
 👨‍💻 Author
 
